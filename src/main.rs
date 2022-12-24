@@ -6,7 +6,7 @@ use std::{
     io::stdin,
 
     process::{Command, ExitCode},
-    process::Output, path::Path,
+    process::Output
 };
 
 
@@ -44,10 +44,10 @@ fn main() -> ExitCode {
         read_stdin()
     };
 
-    if !Path::new(&args.ytdl_bin_file).exists() {
-        eprintln!("could not find binary {}, or current user don't have enough privileges", &args.ytdl_bin_file);
-        return ExitCode::FAILURE;
-    }
+    let bin_path = match args.ytdl_bin_file {
+        Some(v) => v,
+        None => String::from("youtube-dl")
+    };
 
     let input_size = input.len();
     let input_no_comments = input.into_iter().filter(|v| !v.starts_with("#"));
@@ -55,7 +55,7 @@ fn main() -> ExitCode {
     input_no_comments.enumerate().for_each(|(i, v)| {
         println!("{} of {} | downloading: {}. . . ", i + 1, input_size ,&v);
 
-        let output = Command::new(&args.ytdl_bin_file)
+        let output = Command::new(&bin_path)
             .arg("-x")
             .arg("--audio-format")
             .arg("mp3")

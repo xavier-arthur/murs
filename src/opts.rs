@@ -17,6 +17,6 @@ pub struct Opt {
     #[structopt(short, long)]
     pub verbose: bool,
 
-    #[structopt(short, long, help = "youtube-dl bin path", default_value = "youtube-dl")]
-    pub ytdl_bin_file: String
+    #[structopt(short, long, help = "youtube-dl bin path")]
+    pub ytdl_bin_file: Option<String>
 }
